@@ -11,7 +11,7 @@ galaxy_info:
   - name: Ubuntu
     versions:
     - bionic
-  - name: CentOS
+  - name: EL
     versions:
     - 7
 
