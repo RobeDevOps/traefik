@@ -90,6 +90,22 @@ Including an example of how to use your role (for instance, with variables passe
         - robedevops.traefik
 ```
 
+It is possible to do troubleshooting and check the traefik server availability running the playbook with **healthcheck** tag:
+
+```
+ansible-playbook main.yml -i inventory --tags=healthcheck
+
+TASK [robedevops.traefik : Checking traefik availability] ******************************************************************************************************************
+FAILED - RETRYING: Checking traefik availability (5 retries left).
+FAILED - RETRYING: Checking traefik availability (4 retries left).
+FAILED - RETRYING: Checking traefik availability (3 retries left).
+FAILED - RETRYING: Checking traefik availability (2 retries left).
+FAILED - RETRYING: Checking traefik availability (1 retries left).
+fatal: [traefik]: FAILED! => {"attempts": 5, "changed": false, "content": "", "msg": "Status code was -1 and not [200]: Request failed: <urlopen error [Errno 111] Connection refused>", "redirected": false, "status": -1, "url": "http://server_ip:8082/ping"}
+```
+
+
+
 License
 -------
 
