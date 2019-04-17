@@ -104,7 +104,7 @@ FAILED - RETRYING: Checking traefik availability (1 retries left).
 fatal: [traefik]: FAILED! => {"attempts": 5, "changed": false, "content": "", "msg": "Status code was -1 and not [200]: Request failed: <urlopen error [Errno 111] Connection refused>", "redirected": false, "status": -1, "url": "http://server_ip:8082/ping"}
 ```
 
-In this case server failed due service is not running and there is not need to login or do manual curl's and verifications.
+In this case healthcheck failed due service is not running and there is not need to login or do manual curl's in order to perform verifications.
 
 
 License
