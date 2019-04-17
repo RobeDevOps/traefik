@@ -1,0 +1,7 @@
+---
+- name: restart traefik
+  systemd:
+    name: "{{ traefik_systemd_service_name }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

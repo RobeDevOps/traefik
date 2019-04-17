@@ -1,0 +1,56 @@
+---
+- name: Creating traefik directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ traefik_install_directory }}"
+    - "{{ traefik_config_directory }}"
+
+- name: Creating systemd service
+  template:
+    src: "{{ traefik_systemd_service_name }}.j2"
+    dest: "{{ traefik_systemd_service_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart traefik
+
+- name: Creating config file
+  template:
+    src: "{{ traefik_config_file }}.j2"
+    dest: "{{ traefik_config_file_path }}"
+  notify: restart traefik
+
+# only happens when installing new version so,
+# stopping current service version before installing new one.
+- name: Stopping traefik service
+  service:
+    name: traefik
+    state: stopped
+  when: traefik_upgrade_version == 'yes'
+
+- name: Downloading version [{{ traefik_version }}]
+  get_url:
+    url: "{{ traefik_binary_url }}"
+    dest: "{{ traefik_bin }}"
+    mode: 0111
+    force: "{{ traefik_upgrade_version }}"
+  notify: restart traefik
+
+# Restart service before checking availability
+- meta: flush_handlers
+
+# using healthcheck with tags for troubleshooting.
+- name: Checking traefik availability
+  uri:
+    url: "http://{{ ansible_default_ipv4.address }}:{{ traefik_healthcheck_port }}/{{ traefik_healthcheck_entrypoint }}"
+    method: GET
+    validate_certs: False
+    status_code: 200
+    body_format: json
+  register: traefik_ping
+  retries: 5
+  delay: 10
+  until: traefik_ping is not failed
+  tags: healthcheck

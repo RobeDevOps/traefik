@@ -1,0 +1,21 @@
+galaxy_info:
+  author: Roberto Cardenas Isla
+  description: Install traefik
+  company: Own Project (optional)
+
+  license: BSD
+
+  min_ansible_version: 2.7
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - bionic
+
+  galaxy_tags:
+  - traefik
+  - proxy
+  - loadbalancer
+  - reverseproxy
+
+dependencies: []

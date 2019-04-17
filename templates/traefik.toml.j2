@@ -1,0 +1,44 @@
+defaultEntryPoints = ["https","http"]
+[entryPoints]
+  [entryPoints.http]
+  address = ":{{ traefik_http_port | default('80') }}"
+  [entryPoints.https]
+  address = ":{{ traefik_https_port | default('443') }}"
+  [entryPoints.{{ traefik_healthcheck_entrypoint | default('ping') }}]
+  address = ":{{ traefik_helhtchcheck_port | default('8082')}}"
+
+# log configuration
+logLevel = "{{ traefik_log_level }}"
+
+{% if traefik_log_path is defined %}
+[traefikLog]
+  filePath = "{{ traefik_log_path }}"
+{% if traefik_log_format is defined %}  format = "{{ traefik_log_format }}" {% endif %}
+
+{% endif %}
+{% if traefik_api_enable is defined %}
+
+[api]
+entryPoint = "{{ traefik_api_endpoint | default('traefik') }}"
+dashboard = {{ traefik_api_enable | lower }}
+
+{% endif %}
+{% if traefik_docker_provider == true %}
+
+# Starting docker configuration
+[docker]
+endpoint = "{{ traefik_docker_endpoint }}"
+domain = "{{ traefik_docker_domain }}"
+watch = true
+{% if traefik_docker_swarm_mode is defined %}
+swarmMode = {{ traefik_docker_swarm_mode | lower}} 
+{% endif %}
+{% if traefik_docker_network is defined %}
+network = "{{ traefik_docker_network }}"
+{% endif %}
+
+# end docker configuration
+{% endif %}
+
+[ping]
+entryPoint = "{{ traefik_healthcheck_entrypoint | default('ping') }}"

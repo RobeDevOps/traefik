@@ -1,0 +1,10 @@
+[Unit]
+Description=traefik service
+After=network.target
+
+[Service]
+ExecStart={{ traefik_bin }} --configFile={{ traefik_config_file_path }}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
