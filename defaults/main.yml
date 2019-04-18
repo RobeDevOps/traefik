@@ -22,11 +22,14 @@ traefik_log_format: json
 
 # api configuration
 traefik_api_enable: true
+traefik_api_endpoint: traefik
+traefik_api_port: 8080
+traefik_api_debug: true
 
 # docker provider configuration
 traefik_docker_provider: true
 traefik_docker_endpoint: unix:///var/run/docker.sock
-traefik_docker_domain: localhost
+traefik_docker_domain: traefik
 traefik_docker_swarm_mode: true
 traefik_docker_network: traefik
 

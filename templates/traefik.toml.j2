@@ -4,8 +4,12 @@ defaultEntryPoints = ["https","http"]
   address = ":{{ traefik_http_port | default('80') }}"
   [entryPoints.https]
   address = ":{{ traefik_https_port | default('443') }}"
+{% if traefik_api_enable is defined and traefik_api_enable == true %}
+  [entryPoints.{{ traefik_api_endpoint | default('traefik') }}]
+  address = ":{{ traefik_api_port | default('8080') }}"
+{% endif %}
   [entryPoints.{{ traefik_healthcheck_entrypoint | default('ping') }}]
-  address = ":{{ traefik_helhtchcheck_port | default('8082')}}"
+  address = ":{{ traefik_healthcheck_port | default('8082') }}"
 
 # log configuration
 logLevel = "{{ traefik_log_level }}"
@@ -21,6 +25,7 @@ logLevel = "{{ traefik_log_level }}"
 [api]
 entryPoint = "{{ traefik_api_endpoint | default('traefik') }}"
 dashboard = {{ traefik_api_enable | lower }}
+debug = {{ traefik_api_debug | lower }}
 
 {% endif %}
 {% if traefik_docker_provider == true %}
