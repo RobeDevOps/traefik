@@ -33,9 +33,8 @@ traefik_docker_domain: traefik
 traefik_docker_swarm_mode: true
 traefik_docker_network: traefik
 
-# ping configuration
-# if value is not provided default will be ping
+# ping configuration for availability verification
+# When value is not provided default will be ping
 traefik_healthcheck_entrypoint: ping
-
-# if value is not provided default will be 8082 
+# When value is not provided default will be 8082 
 traefik_healthcheck_port: 8082

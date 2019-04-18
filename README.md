@@ -51,10 +51,13 @@ traefik_log_path: /var/log/traefik.log
 traefik_log_format: json
 ```
 
-Working on the api configuration with more details, but so far is possible to enable the api using this:
+The api configuration allows to defined the dashboard properties, but so far is possible to enable the api using this:
 
 ```
 traefik_api_enable: true
+traefik_api_endpoint: traefik
+traefik_api_port: 8080
+traefik_api_debug: true
 ```
 
 If docker provider is used then docker should be installed on host. Can use any docker role on ansible-galaxy repository before running this role. 
